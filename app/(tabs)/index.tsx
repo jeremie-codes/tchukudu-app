@@ -5,13 +5,24 @@ import Colors from '@/constants/Colors';
 
 export default function HomeScreen() {
   return (
-    <View className="flex-1 bg-white">
+    <View className="flex-1 bg-gray-200">
       {/* Header */}
-      <View className="bg-primary pt-12 pb-4 px-4 rounded-b-3xl shadow-md">
-        <Text className="text-3xl font-montserrat-bold text-white">Chukudu</Text>
-        <Text className="text-base font-montserrat text-white mt-2">
-          Votre solution de transport à portée de main
-        </Text>
+      <View className="bg-white pt-12 pb-4 px-4 rounded-b-3xl shadow-md">
+        <View className="flex flex-row px-3 gap-x-4 justify-center items-center">
+          <View className='bg-gray-200 rounded-full h-20 w-20 pt-12'>
+            {/* <Image source={} />   */}
+          </View>
+          <View className=''>
+            <Text className="text-xl font-montserrat-bold text-gray-600">Bienvenue cher client !</Text>
+          </View>
+        </View>
+
+        <View className="pt-4 pb-4 px-4">
+          <Text className="text-3xl font-montserrat-bold tex-">T'chukudu</Text>
+          <Text className="text-base font-montserrat text-gray-500 mt-2">
+            Votre solution de transport à portée de main
+          </Text>
+        </View>
       </View>
 
       {/* Main Content */}
@@ -23,37 +34,40 @@ export default function HomeScreen() {
 
         <View className="flex-row justify-between mb-8">
           <TouchableOpacity 
-            className="bg-primary-light rounded-xl p-4 w-[48%] items-center"
+            className="bg-gray-900 rounded-xl p-4 w-[48%] items-center"
             activeOpacity={0.7}
           >
             <Truck size={32} color={Colors.primary} />
-            <Text className="font-montserrat-medium text-gray-800 mt-2 text-center">
+            <Text className="font-montserrat-medium text-gray-200 mt-2 text-center">
               Transport Express
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity 
-            className="bg-secondary-light rounded-xl p-4 w-[48%] items-center"
+            className="bg-gray-50 rounded-xl p-4 w-[48%] items-center"
             activeOpacity={0.7}
           >
-            <Package size={32} color={Colors.secondary} />
-            <Text className="font-montserrat-medium text-gray-800 mt-2 text-center">
+            <Package size={32} color={'#006'} />
+            <Text className="font-montserrat-medium text-gray-500 mt-2 text-center">
               Livraison Marchandises
             </Text>
           </TouchableOpacity>
         </View>
 
         {/* Call to Action */}
-        <View className="bg-gray-100 rounded-xl p-6 mb-8">
+        <View className="bg-yellow-500 rounded-2xl p-6 mb-8">
           <Text className="text-lg font-montserrat-bold text-gray-800 mb-3">
             Besoin d'un transport?
           </Text>
-          <Text className="font-montserrat text-gray-600 mb-4">
+          <Text className="font-montserrat text-gray-100 mb-4">
             Commandez rapidement et facilement sans inscription préalable.
           </Text>
+          <View className="w-full flex flex-row justify-center mb-4">
+            <Image source={require('@/assets/images/car.png')} className='w-screen h-28' />
+          </View>
           <Link href="/client" asChild>
             <TouchableOpacity 
-              className="bg-primary py-3 rounded-lg items-center"
+              className="bg-gray-900 py-3 rounded-lg items-center"
               activeOpacity={0.7}
             >
               <Text className="font-montserrat-bold text-white">
@@ -64,16 +78,19 @@ export default function HomeScreen() {
         </View>
 
         {/* Transporteur Section */}
-        <View className="bg-gray-100 rounded-xl p-6 mb-8">
+        <View className="bg-white rounded-xl p-6 mb-8">
           <Text className="text-lg font-montserrat-bold text-gray-800 mb-3">
             Vous êtes transporteur?
           </Text>
-          <Text className="font-montserrat text-gray-600 mb-4">
+          <Text className="font-montserrat text-white mb-4">
             Rejoignez notre réseau et recevez des commandes.
           </Text>
+          <View className="w-full flex flex-row justify-center mb-4">
+            <Image source={require('@/assets/images/trans.png')} className='w-full h-48' />
+          </View>
           <Link href="/transporteur" asChild>
             <TouchableOpacity 
-              className="bg-secondary py-3 rounded-lg items-center"
+              className="bg-gray-900 py-3 rounded-lg items-center"
               activeOpacity={0.7}
             >
               <Text className="font-montserrat-bold text-white">
