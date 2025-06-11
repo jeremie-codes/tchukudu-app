@@ -10,16 +10,9 @@ import {
   Montserrat_700Bold,
 } from '@expo-google-fonts/montserrat';
 import * as SplashScreen from 'expo-splash-screen';
-import { AuthProvider } from '@/contexts/AuthContext';
-import { AppProvider } from '@/contexts/AppContext';
 import '../global.css';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-SplashScreen.preventAutoHideAsync();
 
-SplashScreen.setOptions({
-  duration: 1500,
-  fade: true,
-});
+SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   useFrameworkReady();
@@ -42,18 +35,15 @@ export default function RootLayout() {
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <AuthProvider>
-        <AppProvider>
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="auth/welcome" />
-            <Stack.Screen name="(client)" />
-            <Stack.Screen name="(transporter)" />
-            <Stack.Screen name="+not-found" />
-          </Stack>
-          <StatusBar style="auto" />
-        </AppProvider>
-      </AuthProvider>
-    </GestureHandlerRootView>
+    <>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="index" />
+        <Stack.Screen name="auth" />
+        <Stack.Screen name="(client)" />
+        <Stack.Screen name="(transporter)" />
+        <Stack.Screen name="+not-found" />
+      </Stack>
+      <StatusBar style="auto" />
+    </>
   );
 }
