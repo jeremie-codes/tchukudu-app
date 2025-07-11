@@ -34,7 +34,7 @@ export default function ClientProfileScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <View className="bg-yellow-500 px-4 py-4 pt-12">
+      <View className="bg-primary-500 px-4 py-4 pt-12">
         <View className="flex-row items-center justify-between">
           <Text className="text-white font-montserrat-bold text-xl">
             Mon Profil
@@ -146,7 +146,7 @@ export default function ClientProfileScreen() {
 
           <View className="flex-row justify-between">
             <View className="items-center">
-              <Text className="font-montserrat-bold text-2xl text-yellow-500">
+              <Text className="font-montserrat-bold text-2xl text-primary-500">
                 {user?.stats?.totalOrders || 0}
               </Text>
               <Text className="font-montserrat text-sm text-gray-600">

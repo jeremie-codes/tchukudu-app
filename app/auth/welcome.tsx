@@ -52,15 +52,16 @@ export default function WelcomeScreen() {
   return (
     <SafeAreaView className="flex-1 bg-white">
       <ImageBackground
-        source={require('@/assets/images/bg.png')}
+        source={require('@/assets/images/bg-car.jpg')}
         resizeMode="cover"
         style={styles.background}
       >
         <LinearGradient
-          colors={['rgba(255, 204, 0, 0)', 'rgba(255, 153, 0, 0.8)']}
-          className="flex-1 justify-center items-center px-6"
+          colors={['rgba(255, 204, 0, 0)', 'rgba(255, 204, 0, 0)', 'rgba(255, 119, 0, 0.51)']}
+          className="flex-1 justify-end items-center px-6 py-16
+          "
         >
-          <View className="items-center mb-12">
+          {/* <View className="items-center mb-12">
           
             <Text className="text-4xl font-montserrat-bold text-white text-center mb-4 pt-12">
               T'chukudu
@@ -68,7 +69,7 @@ export default function WelcomeScreen() {
             <Text className="text-lg font-montserrat text-white/90 text-center">
               Votre Parteanire Logistique Intelligent
             </Text>
-          </View>
+          </View> */}
 
           <View className="w-full space-y-4">
             <Text className="text-xl font-montserrat-semibold text-white text-center mb-6">

@@ -80,7 +80,7 @@ export default function PaymentScreen() {
       [
         {
           text: 'OK',
-          onPress: () => router.replace('/(yellow)/orders')
+          onPress: () => router.replace('/(primary)/orders')
         }
       ]
     );

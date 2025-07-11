@@ -89,7 +89,7 @@ export default function EditVehicleScreen() {
   return (
     <SafeAreaView className="flex-1 bg-white">
       {/* Header */}
-      <View className="bg-yellow-500 px-4 py-4 pt-12">
+      <View className="bg-primary-500 px-4 py-4 pt-12">
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center">
             <TouchableOpacity onPress={() => router.back()}>
@@ -122,7 +122,7 @@ export default function EditVehicleScreen() {
             />
             <TouchableOpacity
               onPress={handlePhotoChange}
-              className="absolute -bottom-2 -right-2 w-8 h-8 bg-yellow-500 rounded-full items-center justify-center"
+              className="absolute -bottom-2 -right-2 w-8 h-8 bg-primary-500 rounded-full items-center justify-center"
             >
               <Camera size={16} color="white" />
             </TouchableOpacity>
@@ -144,17 +144,17 @@ export default function EditVehicleScreen() {
                 onPress={() => handleTypeSelect(type.id)}
                 className={`flex-1 min-w-[45%] p-3 rounded-xl border-2 ${
                   formData.type === type.label
-                    ? 'border-yellow-500 bg-yellow-50'
+                    ? 'border-primary-500 bg-primary-50'
                     : 'border-gray-200 bg-white'
                 }`}
               >
                 <Text className={`text-center font-montserrat-semibold ${
-                  formData.type === type.label ? 'text-yellow-500' : 'text-gray-700'
+                  formData.type === type.label ? 'text-primary-500' : 'text-gray-700'
                 }`}>
                   {type.label}
                 </Text>
                 <Text className={`text-center font-montserrat text-sm ${
-                  formData.type === type.label ? 'text-yellow-400' : 'text-gray-500'
+                  formData.type === type.label ? 'text-primary-400' : 'text-gray-500'
                 }`}>
                   {type.capacity}
                 </Text>
@@ -187,12 +187,12 @@ export default function EditVehicleScreen() {
                     onPress={() => setFormData({...formData, brand})}
                     className={`px-3 py-1 rounded-full border ${
                       formData.brand === brand
-                        ? 'border-yellow-500 bg-yellow-50'
+                        ? 'border-primary-500 bg-primary-50'
                         : 'border-gray-300 bg-white'
                     }`}
                   >
                     <Text className={`font-montserrat text-sm ${
-                      formData.brand === brand ? 'text-yellow-500' : 'text-gray-600'
+                      formData.brand === brand ? 'text-primary-500' : 'text-gray-600'
                     }`}>
                       {brand}
                     </Text>
@@ -259,12 +259,12 @@ export default function EditVehicleScreen() {
                     onPress={() => setFormData({...formData, color})}
                     className={`px-3 py-1 rounded-full border ${
                       formData.color === color
-                        ? 'border-yellow-500 bg-yellow-50'
+                        ? 'border-primary-500 bg-primary-50'
                         : 'border-gray-300 bg-white'
                     }`}
                   >
                     <Text className={`font-montserrat text-sm ${
-                      formData.color === color ? 'text-yellow-500' : 'text-gray-600'
+                      formData.color === color ? 'text-primary-500' : 'text-gray-600'
                     }`}>
                       {color}
                     </Text>

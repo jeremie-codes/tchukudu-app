@@ -28,7 +28,7 @@ const TransporterMarker: React.FC<TransporterMarkerProps> = ({ transporter, onPr
   const driverPhoto = transporter.photo || 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=400';
 
   return (
-    <Marker
+    <Marker 
       coordinate={{
         latitude: transporter.latitude,
         longitude: transporter.longitude,

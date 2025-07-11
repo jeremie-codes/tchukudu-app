@@ -72,7 +72,7 @@ export default function TrackingScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <View className="bg-yellow-500 px-4 py-4 pt-12">
+      <View className="bg-primary-500 px-4 py-4 pt-12">
         <Text className="text-white font-montserrat-bold text-xl">
           Suivi en temps réel
         </Text>
@@ -134,7 +134,7 @@ export default function TrackingScreen() {
             </Text>
           </View>
           <View className="items-end">
-            <Text className="font-montserrat-bold text-xl text-yellow-500">
+            <Text className="font-montserrat-bold text-xl text-primary-500">
               2000 FC
             </Text>
             <Text className="font-montserrat text-sm text-gray-600">
@@ -185,7 +185,7 @@ export default function TrackingScreen() {
           <View className="flex-row space-x-3">
             <TouchableOpacity 
               onPress={handleRating}
-              className="flex-1 bg-yellow-500 rounded-xl py-3 flex-row items-center justify-center"
+              className="flex-1 bg-primary-500 rounded-xl py-3 flex-row items-center justify-center"
             >
               <Star size={20} color="white" />
               <Text className="text-white font-montserrat-semibold ml-2">

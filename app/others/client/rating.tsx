@@ -130,7 +130,7 @@ export default function RatingScreen() {
 
   const getRatingColor = (rating: number) => {
     if (rating >= 4) return 'text-green-600';
-    if (rating >= 3) return 'text-yellow-600';
+    if (rating >= 3) return 'text-primary-600';
     if (rating >= 1) return 'text-red-600';
     return 'text-gray-400';
   };
@@ -138,7 +138,7 @@ export default function RatingScreen() {
   return (
     <SafeAreaView className="flex-1 bg-white">
       {/* Header */}
-      <View className="bg-yellow-500 px-4 py-4 pt-12">
+      <View className="bg-primary-500 px-4 py-4 pt-12">
         <View className="flex-row items-center">
           <TouchableOpacity onPress={() => router.back()}>
             <ArrowLeft size={24} color="white" />
@@ -213,13 +213,13 @@ export default function RatingScreen() {
                 onPress={() => handleQuickCommentToggle(commentText)}
                 className={`px-3 py-2 rounded-full border ${
                   selectedQuickComments.includes(commentText)
-                    ? 'border-yellow-500 bg-yellow-50'
+                    ? 'border-primary-500 bg-primary-50'
                     : 'border-gray-300 bg-white'
                 }`}
               >
                 <Text className={`font-montserrat text-sm ${
                   selectedQuickComments.includes(commentText)
-                    ? 'text-yellow-500'
+                    ? 'text-primary-500'
                     : 'text-gray-600'
                 }`}>
                   {commentText}
@@ -273,7 +273,7 @@ export default function RatingScreen() {
           className={`rounded-xl py-4 ${
             isSubmitting || overallRating === 0
               ? 'bg-gray-300'
-              : 'bg-yellow-500'
+              : 'bg-primary-500'
           }`}
         >
           <Text className="text-white font-montserrat-bold text-center text-lg">

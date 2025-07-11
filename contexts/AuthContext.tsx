@@ -14,6 +14,9 @@ export interface User {
     plate: string;
     color: string;
     capacity: string;
+    year: any;
+    photo: string;
+    brand: any;
   };
   stats?: {
     totalOrders: number;

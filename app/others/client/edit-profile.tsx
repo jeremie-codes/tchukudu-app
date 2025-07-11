@@ -58,7 +58,7 @@ export default function EditClientProfileScreen() {
   return (
     <SafeAreaView className="flex-1 bg-white">
       {/* Header */}
-      <View className="bg-yellow-500 px-4 py-4 pt-12">
+      <View className="bg-primary-500 px-4 py-4 pt-12">
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center">
             <TouchableOpacity onPress={() => router.back()}>
@@ -90,7 +90,7 @@ export default function EditClientProfileScreen() {
             />
             <TouchableOpacity
               onPress={handlePhotoChange}
-              className="absolute -bottom-2 -right-2 w-8 h-8 bg-yellow-500 rounded-full items-center justify-center"
+              className="absolute -bottom-2 -right-2 w-8 h-8 bg-primary-500 rounded-full items-center justify-center"
             >
               <Camera size={16} color="white" />
             </TouchableOpacity>

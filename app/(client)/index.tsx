@@ -16,6 +16,7 @@ interface Transporter {
   latitude: number;
   longitude: number;
   available: boolean;
+  photo: string;
 }
 
 const mockTransporters: Transporter[] = [
@@ -133,21 +134,6 @@ export default function ClientHomeScreen() {
     <SafeAreaView className="flex-1 bg-white">
       <View className="flex-1">
         {/* Header */}
-        {/* <View className="bg-yellow-500 px-4 py-3 pt-12">
-          <Text className="text-white font-montserrat-bold text-xl mb-3">
-            Trouvez votre transporteur
-          </Text>
-          <View className="flex-row items-center bg-white rounded-xl px-4 py-3">
-            <Search size={20} color="#6b7280" />
-            <TextInput
-              className="flex-1 ml-3 font-montserrat"
-              placeholder="Rechercher un transporteur..."
-              value={searchQuery}
-              onChangeText={setSearchQuery}
-            />
-          </View>
-        </View> */}
-
         {/* Map - Half screen */}
         <View className="flex-1">
           <MapView
@@ -226,7 +212,7 @@ export default function ClientHomeScreen() {
                   </View>
 
                   <View className="items-end">
-                    <Text className="font-montserrat-bold text-xl text-yellow-500">
+                    <Text className="font-montserrat-bold text-xl text-primary-500">
                       {transporter.price}
                     </Text>
                     <TouchableOpacity className="bg-gray-800 px-3 py-2 rounded-lg mt-2 flex-row items-center"

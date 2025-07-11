@@ -118,7 +118,7 @@ export default function TransporterDetailsScreen() {
   return (
     <SafeAreaView className="flex-1 bg-white">
       {/* Header */}
-      <View className="bg-yellow-500 px-4 py-4 pt-12">
+      <View className="bg-primary-500 px-4 py-4 pt-12">
         <View className="flex-row items-center">
           <TouchableOpacity onPress={() => router.back()}>
             <ArrowLeft size={24} color="white" />
@@ -239,7 +239,7 @@ export default function TransporterDetailsScreen() {
           
           <View className="flex-row justify-between">
             <View className="items-center">
-              <Text className="font-montserrat-bold text-2xl text-yellow-500">
+              <Text className="font-montserrat-bold text-2xl text-primary-500">
                 {transporter.stats.completionRate}%
               </Text>
               <Text className="font-montserrat text-sm text-gray-600 text-center">
@@ -309,7 +309,7 @@ export default function TransporterDetailsScreen() {
 
           <TouchableOpacity
             onPress={handleOrder}
-            className="flex-1 bg-yellow-500 rounded-xl py-4"
+            className="flex-1 bg-primary-500 rounded-xl py-4"
           >
             <Text className="text-white font-montserrat-bold text-center text-lg">
               Commander

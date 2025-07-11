@@ -58,7 +58,7 @@ const mockOrders: Order[] = [
 
 const getStatusColor = (status: string) => {
   switch (status) {
-    case 'pending': return 'bg-yellow-100 text-yellow-800';
+    case 'pending': return 'bg-primary-100 text-primary-800';
     case 'accepted': return 'bg-blue-100 text-blue-800';
     case 'in_progress': return 'bg-green-100 text-green-800';
     case 'delivered': return 'bg-green-100 text-green-800';
@@ -92,7 +92,7 @@ export default function OrdersScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <View className="bg-yellow-500 px-4 py-4 pt-12">
+      <View className="bg-primary-500 px-4 py-4 pt-12">
         <Text className="text-white font-montserrat-bold text-xl">
           Mes Commandes
         </Text>
@@ -136,7 +136,7 @@ export default function OrdersScreen() {
             </View>
 
             <View className="flex-row items-center justify-between">
-              <Text className="font-montserrat-bold text-xl text-yellow-500">
+              <Text className="font-montserrat-bold text-xl text-primary-500">
                 {order.price}
               </Text>
 
@@ -148,7 +148,7 @@ export default function OrdersScreen() {
                     </TouchableOpacity>
                     <TouchableOpacity 
                       onPress={handleTrackingOrder}
-                      className="bg-yellow-500 px-4 py-2 rounded-lg"
+                      className="bg-primary-500 px-4 py-2 rounded-lg"
                     >
                       <Text className="text-white font-montserrat-semibold text-sm">
                         Suivre
@@ -160,7 +160,7 @@ export default function OrdersScreen() {
                 {order.status === 'delivered' && order.canRate && (
                   <TouchableOpacity 
                     onPress={() => handleRateTransporter(order)}
-                    className="bg-yellow-500 px-4 py-2 rounded-lg"
+                    className="bg-primary-500 px-4 py-2 rounded-lg"
                   >
                     <View className="flex-row items-center">
                       <Star size={16} color="white" />

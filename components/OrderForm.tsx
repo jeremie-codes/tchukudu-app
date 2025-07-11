@@ -56,12 +56,12 @@ export default function OrderForm({ transporterId, onSubmit, onCancel }: OrderFo
                 onPress={() => setFormData({...formData, transportType: type.key})}
                 className={`flex-1 p-3 rounded-xl border-2 ${
                   formData.transportType === type.key 
-                    ? 'border-yellow-500 bg-yellow-50' 
+                    ? 'border-primary-500 bg-primary-50' 
                     : 'border-gray-200 bg-white'
                 }`}
               >
                 <Text className={`text-center font-montserrat-semibold ${
-                  formData.transportType === type.key ? 'text-yellow-500' : 'text-gray-700'
+                  formData.transportType === type.key ? 'text-primary-500' : 'text-gray-700'
                 }`}>
                   {type.label}
                 </Text>
@@ -86,12 +86,12 @@ export default function OrderForm({ transporterId, onSubmit, onCancel }: OrderFo
                 onPress={() => setFormData({...formData, packageType: type.key})}
                 className={`flex-1 p-3 rounded-xl border-2 ${
                   formData.packageType === type.key 
-                    ? 'border-yellow-500 bg-yellow-50' 
+                    ? 'border-primary-500 bg-primary-50' 
                     : 'border-gray-200 bg-white'
                 }`}
               >
                 <Text className={`text-center font-montserrat-semibold ${
-                  formData.packageType === type.key ? 'text-yellow-500' : 'text-gray-700'
+                  formData.packageType === type.key ? 'text-primary-500' : 'text-gray-700'
                 }`}>
                   {type.label}
                 </Text>
@@ -115,12 +115,12 @@ export default function OrderForm({ transporterId, onSubmit, onCancel }: OrderFo
                 onPress={() => setFormData({...formData, nature: nature.key})}
                 className={`flex-1 p-3 rounded-xl border-2 ${
                   formData.nature === nature.key 
-                    ? 'border-yellow-500 bg-yellow-50' 
+                    ? 'border-primary-500 bg-primary-50' 
                     : 'border-gray-200 bg-white'
                 }`}
               >
                 <Text className={`text-center font-montserrat-semibold ${
-                  formData.nature === nature.key ? 'text-yellow-500' : 'text-gray-700'
+                  formData.nature === nature.key ? 'text-primary-500' : 'text-gray-700'
                 }`}>
                   {nature.label}
                 </Text>
@@ -211,14 +211,14 @@ export default function OrderForm({ transporterId, onSubmit, onCancel }: OrderFo
         </View>
 
         {/* Price Estimate */}
-        <View className="bg-yellow-50 rounded-xl p-4 mb-6">
+        <View className="bg-primary-50 rounded-xl p-4 mb-6">
           <View className="flex-row items-center justify-between">
             <Text className="font-montserrat-semibold text-gray-900">
               Estimation du coût
             </Text>
             <View className="flex-row items-center">
               <DollarSign size={20} color="#f59e0b" />
-              <Text className="font-montserrat-bold text-xl text-yellow-500 ml-1">
+              <Text className="font-montserrat-bold text-xl text-primary-500 ml-1">
                 2000 FC
               </Text>
             </View>
@@ -238,7 +238,7 @@ export default function OrderForm({ transporterId, onSubmit, onCancel }: OrderFo
 
           <TouchableOpacity
             onPress={handleSubmit}
-            className="flex-1 bg-yellow-500 rounded-xl py-4"
+            className="flex-1 bg-primary-500 rounded-xl py-4"
           >
             <Text className="text-white font-montserrat-bold text-center">
               Confirmer la commande
