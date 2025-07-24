@@ -4,19 +4,31 @@ import { Package, MapPin, Weight, Truck, DollarSign } from 'lucide-react-native'
 
 interface OrderFormProps {
   transporterId: string;
+  initialTransportType?: string;
+  initialPickup?: string;
+  initialDestination?: string;
+  initialUrgency?: string;
   onSubmit: (orderData: any) => void;
   onCancel: () => void;
 }
 
-export default function OrderForm({ transporterId, onSubmit, onCancel }: OrderFormProps) {
+export default function OrderForm({ 
+  transporterId, 
+  initialTransportType,
+  initialPickup,
+  initialDestination,
+  initialUrgency,
+  onSubmit, 
+  onCancel 
+}: OrderFormProps) {
   const [formData, setFormData] = useState({
-    transportType: 'express',
+    transportType: initialTransportType || 'express',
     packageType: 'carton',
     nature: 'solide',
     weight: '',
     volume: '',
-    pickup: '',
-    destination: '',
+    pickup: initialPickup || '',
+    destination: initialDestination || '',
     specialInstructions: ''
   });
 
@@ -41,7 +53,8 @@ export default function OrderForm({ transporterId, onSubmit, onCancel }: OrderFo
         </Text>
 
         {/* Transport Type */}
-        <View className="mb-6">
+        {!initialTransportType && (
+          <View className="mb-6">
           <Text className="font-montserrat-semibold text-gray-900 mb-3">
             Type de transport
           </Text>
@@ -69,6 +82,21 @@ export default function OrderForm({ transporterId, onSubmit, onCancel }: OrderFo
             ))}
           </View>
         </View>
+        )}
+
+        {initialTransportType && (
+          <View className="mb-6 p-4 bg-primary-50 rounded-xl">
+            <Text className="font-montserrat-semibold text-primary-800 mb-1">
+              Type de transport sélectionné
+            </Text>
+            <Text className="font-montserrat-bold text-primary-600 capitalize">
+              {initialTransportType}
+              {initialUrgency === 'express' && (
+                <Text className="text-red-600"> • EXPRESS (+30%)</Text>
+              )}
+            </Text>
+          </View>
+        )}
 
         {/* Package Type */}
         <View className="mb-6">
@@ -171,11 +199,14 @@ export default function OrderForm({ transporterId, onSubmit, onCancel }: OrderFo
           <Text className="font-montserrat-semibold text-gray-900 mb-2">
             Point de récupération *
           </Text>
-          <View className="flex-row items-center bg-gray-50 rounded-xl px-4 py-4 mb-4">
+          <View className={`flex-row items-center rounded-xl px-4 py-4 mb-4 ${
+            initialPickup ? 'bg-gray-100' : 'bg-gray-50'
+          }`}>
             <MapPin size={20} color="#6b7280" />
             <TextInput
               className="flex-1 ml-3 font-montserrat"
               placeholder="Adresse de récupération"
+              editable={!initialPickup}
               value={formData.pickup}
               onChangeText={(text) => setFormData({...formData, pickup: text})}
             />
@@ -184,11 +215,14 @@ export default function OrderForm({ transporterId, onSubmit, onCancel }: OrderFo
           <Text className="font-montserrat-semibold text-gray-900 mb-2">
             Destination *
           </Text>
-          <View className="flex-row items-center bg-gray-50 rounded-xl px-4 py-4">
+          <View className={`flex-row items-center rounded-xl px-4 py-4 ${
+            initialDestination ? 'bg-gray-100' : 'bg-gray-50'
+          }`}>
             <MapPin size={20} color="#f59e0b" />
             <TextInput
               className="flex-1 ml-3 font-montserrat"
               placeholder="Adresse de destination"
+              editable={!initialDestination}
               value={formData.destination}
               onChangeText={(text) => setFormData({...formData, destination: text})}
             />
@@ -215,11 +249,16 @@ export default function OrderForm({ transporterId, onSubmit, onCancel }: OrderFo
           <View className="flex-row items-center justify-between">
             <Text className="font-montserrat-semibold text-gray-900">
               Estimation du coût
+              {initialUrgency === 'express' && (
+                <Text className="text-red-600"> (EXPRESS +30%)</Text>
+              )}
             </Text>
             <View className="flex-row items-center">
               <DollarSign size={20} color="#f59e0b" />
-              <Text className="font-montserrat-bold text-xl text-primary-500 ml-1">
-                2000 FC
+              <Text className={`font-montserrat-bold text-xl ml-1 ${
+                initialUrgency === 'express' ? 'text-red-500' : 'text-primary-500'
+              }`}>
+                {initialUrgency === 'express' ? '2600 FC' : '2000 FC'}
               </Text>
             </View>
           </View>

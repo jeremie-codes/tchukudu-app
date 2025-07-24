@@ -5,7 +5,7 @@ import OrderForm from '@/components/OrderForm';
 
 export default function OrderScreen() {
   const router = useRouter();
-  const { transporterId } = useLocalSearchParams();
+  const { transporterId, transportType, pickup, destination, urgency } = useLocalSearchParams();
 
   const handleOrderSubmit = (orderData: any) => {
     Alert.alert(
@@ -28,6 +28,10 @@ export default function OrderScreen() {
     <SafeAreaView className="flex-1 bg-white">
       <OrderForm
         transporterId={transporterId as string}
+        initialTransportType={transportType as string}
+        initialPickup={pickup as string}
+        initialDestination={destination as string}
+        initialUrgency={urgency as string}
         onSubmit={handleOrderSubmit}
         onCancel={handleCancel}
       />

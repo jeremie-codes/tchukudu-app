@@ -28,6 +28,15 @@ export default function ClientLayout() {
       }}
     >
       <Tabs.Screen
+        name="transport-selection"
+        options={{
+          title: 'Transport',
+          tabBarIcon: ({ size, color }) => (
+            <Package size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="index"
         options={{
           title: 'Carte',
@@ -45,15 +54,6 @@ export default function ClientLayout() {
           ),
         }}
       />
-      {/* <Tabs.Screen
-        name="tracking"
-        options={{
-          title: 'Suivi',
-          tabBarIcon: ({ size, color }) => (
-            <Clock size={size} color={color} />
-          ),
-        }}
-      /> */}
       <Tabs.Screen
         name="profile"
         options={{

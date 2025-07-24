@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, Image, Alert } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, Image, Alert, Linking } from 'react-native';
 import { ArrowLeft, Star, Phone, MapPin, Truck, Shield, Clock, Package } from 'lucide-react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 
@@ -86,22 +86,28 @@ const mockTransporterDetails: TransporterDetails = {
 
 export default function TransporterDetailsScreen() {
   const router = useRouter();
-  const { transporterId } = useLocalSearchParams();
+  const { transporterId, transportType, pickup, destination, urgency } = useLocalSearchParams();
   const [transporter] = useState(mockTransporterDetails);
 
   const handleOrder = () => {
-    router.push(`/order?transporterId=${transporterId}`);
+    const queryParams = new URLSearchParams({
+      transporterId: transporterId as string,
+      ...(transportType && { transportType: transportType as string }),
+      ...(pickup && { pickup: pickup as string }),
+      ...(destination && { destination: destination as string }),
+      ...(urgency && { urgency: urgency as string })
+    });
+    router.push(`/order?${queryParams.toString()}`);
   };
 
   const handleCall = () => {
-    Alert.alert(
-      'Appeler le transporteur',
-      `Voulez-vous appeler ${transporter.name} ?`,
-      [
-        { text: 'Annuler', style: 'cancel' },
-        { text: 'Appeler', onPress: () => console.log('Calling...') }
-      ]
-    );
+    Linking.openURL(`tel:${transporter.phone}`);
+  };
+
+  const handleWhatsApp = () => {
+    const phoneNumber = transporter.phone.replace(/\D/g, '');
+    const message = encodeURIComponent(`Bonjour ${transporter.name}, je souhaite réserver vos services de transport.`);
+    Linking.openURL(`whatsapp://send?phone=${phoneNumber}&text=${message}`);
   };
 
   const renderStars = (rating: number) => {
@@ -299,7 +305,7 @@ export default function TransporterDetailsScreen() {
         <View className="flex-row space-x-3">
           <TouchableOpacity
             onPress={handleCall}
-            className="flex-1 bg-gray-800 rounded-xl py-4 flex-row items-center justify-center"
+            className="flex-1 bg-blue-500 rounded-xl py-4 flex-row items-center justify-center"
           >
             <Phone size={20} color="white" />
             <Text className="text-white font-montserrat-semibold ml-2">
@@ -308,8 +314,19 @@ export default function TransporterDetailsScreen() {
           </TouchableOpacity>
 
           <TouchableOpacity
+            onPress={handleWhatsApp}
+            className="flex-1 bg-green-600 rounded-xl py-4 flex-row items-center justify-center"
+          >
+            <Text className="text-white font-montserrat-semibold">
+              WhatsApp
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <View className="mt-3">
+          <TouchableOpacity
             onPress={handleOrder}
-            className="flex-1 bg-primary-500 rounded-xl py-4"
+            className="bg-primary-500 rounded-xl py-4"
           >
             <Text className="text-white font-montserrat-bold text-center text-lg">
               Commander

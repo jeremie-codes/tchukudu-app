@@ -82,7 +82,7 @@ export default function AuthScreen() {
         };
         
         await login(userData);
-        router.replace('/(client)');
+        router.replace('/(client)/transport-selection');
       } else {
         Alert.alert('Erreur', 'Vérifiez vos informations de connexion');
       }

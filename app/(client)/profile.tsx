@@ -135,6 +135,26 @@ export default function ClientProfileScreen() {
                 thumbColor={settings.notifications ? '#f59e0b' : '#9ca3af'}
               />
             </View>
+
+            <View className="flex-row items-center justify-between">
+              <View className="flex-row items-center">
+                <Phone size={20} color="#6b7280" />
+                <View className="ml-3">
+                  <Text className="font-montserrat-semibold text-gray-900">
+                    Contact par transporteur
+                  </Text>
+                  <Text className="font-montserrat text-sm text-gray-600">
+                    Permettre aux transporteurs de vous{'\n'}contacter pendant la course
+                  </Text>
+                </View>
+              </View>
+              <Switch
+                value={settings.canBeContacted}
+                onValueChange={(value) => updateSettings({ canBeContacted: value })}
+                trackColor={{ false: '#e5e7eb', true: '#fbbf24' }}
+                thumbColor={settings.canBeContacted ? '#f59e0b' : '#9ca3af'}
+              />
+            </View>
           </View>
         </View>
 

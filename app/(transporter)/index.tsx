@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, SafeAreaView, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity, Alert, Linking } from 'react-native';
 import { Power, Navigation, Clock, Package, MapPin } from 'lucide-react-native';
 import MapView, { Marker, Polyline } from 'react-native-maps';
+import { mapDarkStyle } from '@/constants/MapDarkStyle';
 
 interface IncomingOrder {
   id: string;
   clientName: string;
+  clientPhone: string;
   pickup: string;
   destination: string;
   price: string;
@@ -25,6 +27,7 @@ export default function TransporterHomeScreen() {
         setIncomingOrder({
           id: '1',
           clientName: 'Marie Kasongo',
+          clientPhone: '+243 827 289 636',
           pickup: 'Gombe, Kinshasa',
           destination: 'Lemba, Kinshasa',
           price: '3500 FC',
@@ -65,6 +68,19 @@ export default function TransporterHomeScreen() {
     Alert.alert('Commande refusée', 'Une nouvelle commande vous sera proposée bientôt.');
   };
 
+  const handleCallClient = () => {
+    if (incomingOrder?.clientPhone) {
+      Linking.openURL(`tel:${incomingOrder.clientPhone}`);
+    }
+  };
+
+  const handleWhatsAppClient = () => {
+    if (incomingOrder?.clientPhone) {
+      const phoneNumber = incomingOrder.clientPhone.replace(/\D/g, '');
+      const message = encodeURIComponent(`Bonjour ${incomingOrder.clientName}, je suis votre transporteur pour la commande ${incomingOrder.id}. Je me dirige vers le point de récupération.`);
+      Linking.openURL(`whatsapp://send?phone=${phoneNumber}&text=${message}`);
+    }
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-white">
@@ -95,9 +111,10 @@ export default function TransporterHomeScreen() {
           initialRegion={{
             latitude: -4.3317,
             longitude: 15.3139,
-            latitudeDelta: 0.01,
-            longitudeDelta: 0.01,
+            latitudeDelta: 0.002,
+            longitudeDelta: 0.002,
           }}
+          customMapStyle={mapDarkStyle}
           showsUserLocation={true}
           followsUserLocation={true}
         >
@@ -225,11 +242,33 @@ export default function TransporterHomeScreen() {
                 Vers: Lemba, Kinshasa • 2.1 km restants
               </Text>
 
-              <TouchableOpacity className="bg-green-500 rounded-xl py-3">
+              <View className="space-y-3">
+                <View className="flex-row space-x-3">
+                  <TouchableOpacity 
+                    onPress={handleCallClient}
+                    className="flex-1 bg-blue-500 rounded-xl py-3"
+                  >
+                    <Text className="text-white font-montserrat-semibold text-center">
+                      Appeler client
+                    </Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity 
+                    onPress={handleWhatsAppClient}
+                    className="flex-1 bg-green-600 rounded-xl py-3"
+                  >
+                    <Text className="text-white font-montserrat-semibold text-center">
+                      WhatsApp
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+
+                <TouchableOpacity className="bg-green-500 rounded-xl py-3">
                 <Text className="text-white font-montserrat-bold text-center">
                   Terminer la course
                 </Text>
               </TouchableOpacity>
+              </View>
             </View>
           </View>
         )}

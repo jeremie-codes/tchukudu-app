@@ -11,7 +11,7 @@ export default function WelcomeScreen() {
 
   const redirectToAuth = (user: any) => {
       if (user.role === 'client') {
-        router.replace('/(client)');
+        router.replace('/(client)/transport-selection');
       } else if (user.role === 'transporter') {
         router.replace('/(transporter)');
       }

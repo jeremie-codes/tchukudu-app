@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, TextInput, Linking, Alert } from 'react-native';
 import { Search, MapPin, Star, Truck, Clock, Eye } from 'lucide-react-native';
 import MapView from 'react-native-maps';
-import { useRouter } from 'expo-router';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import TransporterMarker from '@/components/TransporterMarker';
+import { mapDarkStyle } from '@/constants/MapDarkStyle';
 
 interface Transporter {
   id: string;
@@ -91,32 +92,64 @@ const mockTransporters: Transporter[] = [
 const INITIAL_REGION = {
   latitude: -4.3317,
   longitude: 15.3139,
-  latitudeDelta: 0.01,
-  longitudeDelta: 0.01,
+  latitudeDelta: 0.002,
+  longitudeDelta: 0.002,
 };
 
 export default function ClientHomeScreen() {
   const router = useRouter();
+  const params = useLocalSearchParams();
   const [searchQuery, setSearchQuery] = useState('');
   const [transporters, setTransporters] = useState(mockTransporters);
+  const [filteredTransporters, setFilteredTransporters] = useState(mockTransporters);
   const [region, setRegion] = useState({
     latitude: -4.3317,
     longitude: 15.3139,
-    latitudeDelta: 0.01,
-    longitudeDelta: 0.01,
+    latitudeDelta: 0.002,
+    longitudeDelta: 0.002,
   });
 
   const mapRef = useRef<MapView>(null);
   
+  // Filtrer les transporteurs selon les critères sélectionnés
+  useEffect(() => {
+    let filtered = transporters;
+    
+    // Filtrer par type de transport si spécifié
+    if (params.transportType) {
+      const transportTypeMap: { [key: string]: string[] } = {
+        'moto': ['Moto'],
+        'voiture': ['Voiture'],
+        'camionnette': ['Camionnette', 'Camion'],
+        'camion': ['Camion']
+      };
+      
+      const allowedTypes = transportTypeMap[params.transportType as string] || [];
+      filtered = filtered.filter(t => allowedTypes.includes(t.vehicleType));
+    }
+    
+    // Filtrer par disponibilité
+    filtered = filtered.filter(t => t.available);
+    
+    setFilteredTransporters(filtered);
+  }, [params.transportType, transporters]);
+
   // Mémoriser les transporteurs disponibles pour éviter les recalculs
   const availableTransporters = React.useMemo(() => 
-    transporters.filter(t => t.available), 
-    [transporters]
+    filteredTransporters.filter(t => t.available), 
+    [filteredTransporters]
   );
 
   // Callbacks mémorisés pour éviter les re-créations
   const handleTransporterPress = useCallback((transporterId: string) => {
-    router.push(`/others/client/transporter-details?transporterId=${transporterId}`);
+    const queryParams = new URLSearchParams({
+      transporterId,
+      ...(params.transportType && { transportType: params.transportType as string }),
+      ...(params.pickup && { pickup: params.pickup as string }),
+      ...(params.destination && { destination: params.destination as string }),
+      ...(params.urgency && { urgency: params.urgency as string })
+    });
+    router.push(`/others/client/transporter-details?${queryParams.toString()}`);
   }, [router]);
 
   const handleMarkerPress = useCallback((transporterId: string) => {
@@ -140,6 +173,7 @@ export default function ClientHomeScreen() {
             ref={mapRef}
             style={{ flex: 1 }}
             initialRegion={INITIAL_REGION}
+            customMapStyle={mapDarkStyle}
             onRegionChangeComplete={onRegionChangeComplete}
             showsUserLocation={false}
             showsMyLocationButton={false}
@@ -160,72 +194,127 @@ export default function ClientHomeScreen() {
 
         {/* Transporters List - Half screen */}
         <View className="flex-1 bg-gray-50" style={{ paddingBottom: 0 }}>
+          {/* Header avec informations de recherche */}
           <View className="bg-white px-4 py-3 border-b border-gray-200">
-            <Text className="font-montserrat-bold text-lg text-gray-900">
-              Transporteurs disponibles ({availableTransporters.length})
-            </Text>
+            {params.transportType && (
+              <View className="mb-2">
+                <Text className="font-montserrat text-sm text-gray-600">
+                  Transport: {params.transportType} • {params.pickup} → {params.destination}
+                </Text>
+              </View>
+            )}
+            <View className="flex-row items-center justify-between">
+              <Text className="font-montserrat-bold text-lg text-gray-900">
+                Transporteurs disponibles ({availableTransporters.length})
+              </Text>
+              {params.urgency === 'express' && (
+                <View className="bg-red-100 px-2 py-1 rounded-full">
+                  <Text className="font-montserrat-semibold text-red-700 text-xs">
+                    EXPRESS
+                  </Text>
+                </View>
+              )}
+            </View>
           </View>
 
           <ScrollView className="flex-1 px-4 pt-4" >
-            {availableTransporters.map((transporter) => (
-              <TouchableOpacity
-                  key={transporter.id}
-                  onPress={() => handleTransporterPress(transporter.id)}
-                  className="bg-white rounded-xl p-4 mb-3 shadow-sm border border-gray-100"
+            {availableTransporters.length === 0 ? (
+              <View className="flex-1 items-center justify-center py-12">
+                <Truck size={48} color="#d1d5db" />
+                <Text className="font-montserrat-bold text-lg text-gray-500 mt-4 mb-2">
+                  Aucun transporteur disponible
+                </Text>
+                <Text className="font-montserrat text-gray-400 text-center">
+                  Essayez de modifier vos critères de recherche ou réessayez plus tard
+                </Text>
+                <TouchableOpacity
+                  onPress={() => router.push('/(client)/transport-selection')}
+                  className="bg-primary-500 px-6 py-3 rounded-xl mt-6"
                 >
-                <View className="flex-row items-center justify-between">
-                  <View className="flex-1">
-                    <View className="flex-row items-center mb-2">
-                      <Text className="font-montserrat-bold text-lg text-gray-900 mr-2">
-                        {transporter.name}
-                      </Text>
-                      <View className="flex-row items-center">
-                        <Star size={16} color="#f59e0b" fill="#f59e0b" />
-                        <Text className="font-montserrat-medium text-sm text-gray-700 ml-1">
-                          {transporter.rating}
+                  <Text className="text-white font-montserrat-semibold">
+                    Modifier la recherche
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            ) : (
+                availableTransporters.map((transporter) => (
+                  <TouchableOpacity
+                      key={transporter.id}
+                      onPress={() => handleTransporterPress(transporter.id)}
+                      className="bg-white rounded-xl p-4 mb-3 shadow-sm border border-gray-100"
+                    >
+                    <View className="flex-row items-center justify-between">
+                      <View className="flex-1">
+                        <View className="flex-row items-center mb-2">
+                          <Text className="font-montserrat-bold text-lg text-gray-900 mr-2">
+                            {transporter.name}
+                          </Text>
+                          <View className="flex-row items-center">
+                            <Star size={16} color="#f59e0b" fill="#f59e0b" />
+                            <Text className="font-montserrat-medium text-sm text-gray-700 ml-1">
+                              {transporter.rating}
+                            </Text>
+                          </View>
+                        </View>
+
+                        <View className="flex-row items-center mb-2">
+                          <Truck size={16} color="#6b7280" />
+                          <Text className="font-montserrat text-gray-600 ml-2">
+                            {transporter.vehicleType}
+                          </Text>
+                          {params.urgency === 'express' && (
+                            <View className="bg-red-100 px-2 py-1 rounded-full ml-2">
+                              <Text className="font-montserrat-semibold text-red-700 text-xs">
+                                EXPRESS
+                              </Text>
+                            </View>
+                          )}
+                        </View>
+
+                        <View className="flex-row items-center justify-between pr-2">
+                          <View className="flex-row items-center">
+                            <MapPin size={16} color="#6b7280" />
+                            <Text className="font-montserrat text-gray-600 ml-1">
+                              {transporter.distance}
+                            </Text>
+                          </View>
+                          
+                          <View className="flex-row items-center">
+                            <Clock size={16} color="#6b7280" />
+                            <Text className="font-montserrat text-gray-600 ml-1">
+                              {transporter.eta}
+                            </Text>
+                          </View>
+                        </View>
+                      </View>
+
+                      <View className="items-end">
+                        {params.urgency === 'express' ? (
+                          <View>
+                            <Text className="font-montserrat text-sm text-gray-500 line-through">
+                              {transporter.price}
+                            </Text>
+                            <Text className="font-montserrat-bold text-xl text-red-500">
+                              {Math.round(parseInt(transporter.price.replace(/\D/g, '')) * 1.3)} FC
+                            </Text>
+                          </View>
+                        ) : (
+                        <Text className="font-montserrat-bold text-xl text-primary-500">
+                          {transporter.price}
                         </Text>
+                        )}
+                        <TouchableOpacity className="bg-gray-800 px-3 py-2 rounded-lg mt-2 flex-row items-center"
+                          onPress={() => handleTransporterPress(transporter.id)}>
+                          <Eye size={16} color="white" />
+                          <Text className="text-white font-montserrat-semibold text-sm ml-1">
+                            Voir détails
+                          </Text>
+                        </TouchableOpacity>
                       </View>
                     </View>
-
-                    <View className="flex-row items-center mb-2">
-                      <Truck size={16} color="#6b7280" />
-                      <Text className="font-montserrat text-gray-600 ml-2">
-                        {transporter.vehicleType}
-                      </Text>
-                    </View>
-
-                    <View className="flex-row items-center justify-between pr-2">
-                      <View className="flex-row items-center">
-                        <MapPin size={16} color="#6b7280" />
-                        <Text className="font-montserrat text-gray-600 ml-1">
-                          {transporter.distance}
-                        </Text>
-                      </View>
-                      
-                      <View className="flex-row items-center">
-                        <Clock size={16} color="#6b7280" />
-                        <Text className="font-montserrat text-gray-600 ml-1">
-                          {transporter.eta}
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-
-                  <View className="items-end">
-                    <Text className="font-montserrat-bold text-xl text-primary-500">
-                      {transporter.price}
-                    </Text>
-                    <TouchableOpacity className="bg-gray-800 px-3 py-2 rounded-lg mt-2 flex-row items-center"
-                      onPress={() => handleTransporterPress(transporter.id)}>
-                      <Eye size={16} color="white" />
-                      <Text className="text-white font-montserrat-semibold text-sm ml-1">
-                        Voir détails
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            ))}
+                  </TouchableOpacity>
+                ))
+            )}
 
             <View style={{ height: 90 }}></View>
           </ScrollView>
